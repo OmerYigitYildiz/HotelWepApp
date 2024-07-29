@@ -9,7 +9,7 @@ using HotelDomain.Entities;
 
 namespace HotelApplication.Models
 {
-    public class CustomerValidation : AbstractValidator<Customer>
+    public class CustomerValidation : AbstractValidator<CustomerModel>
     {
         public CustomerValidation()
         {
@@ -21,4 +21,5 @@ namespace HotelApplication.Models
             RuleFor(x => x.Country).NotEmpty().WithMessage("Country Can Not Be Empty");
         }
     }
+
 }

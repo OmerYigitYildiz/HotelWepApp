@@ -1,4 +1,5 @@
-﻿using HotelDomain.Entities;
+﻿using HotelApplication.Models;
+using HotelDomain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,8 @@ namespace HotelApplication.Services.BaseServices
     {
         Task<List<Customer>> GetAllTable();
         Task<Customer> GetTable(int id);
-        Task<Customer> AddTable(Customer customer);
-        Task<Customer> UpdateTable(Customer customer);
+        Task<CustomerResponseModel> AddTable(CustomerModel customerModel);
+        Task<CustomerResponseModel> UpdateTable(CustomerModel customerModel);
         Task<Customer> DeleteTable(int id);
     }
 }

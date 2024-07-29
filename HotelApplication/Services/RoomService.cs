@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HotelDomain.IRepositories;
+using HotelApplication.Mapper;
+using HotelApplication.Models;
 
 namespace HotelApplication.Services
 {
@@ -29,22 +31,24 @@ namespace HotelApplication.Services
         public async Task<Room> GetTable(int id)
         {
             var Room = await _repository.GetByIdAsync(id);
-            //var user = MainProjectMapper.Mapper.Map<PersonelResponseModel>(Room);
+            var user = HotelMapper.Mapper.Map<Room>(Room);
 
             return Room;
 
         }
 
-        public async Task<Room> AddTable(Room Room)
+        public async Task<RoomResponseModel> AddTable(RoomModel roomModel)
         {
-            await _repository.AddAsync(Room);
-            return Room;
+            var user = HotelMapper.Mapper.Map<Room>(roomModel);
+            await _repository.AddAsync(user);
+            return HotelMapper.Mapper.Map<RoomResponseModel>(user);
         }
 
-        public async Task<Room> UpdateTable(Room Room)
+        public async Task<RoomResponseModel> UpdateTable(RoomModel roomModel)
         {
-            await _repository.UpdateAsync(Room);
-            return Room;
+            var user = HotelMapper.Mapper.Map<Room>(roomModel);
+            await _repository.UpdateAsync(user);
+            return HotelMapper.Mapper.Map<RoomResponseModel>(user);
         }
 
         public async Task<Room> DeleteTable(int id)
