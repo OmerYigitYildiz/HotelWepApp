@@ -9,7 +9,7 @@ using FluentValidation.Results;
 
 namespace HotelApplication.Models
 {
-    public class RoomValidation : AbstractValidator<Room>
+    public class RoomValidation : AbstractValidator<RoomModel>
     {
         public RoomValidation()
         {

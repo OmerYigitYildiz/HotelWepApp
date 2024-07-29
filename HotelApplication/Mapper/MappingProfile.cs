@@ -9,13 +9,16 @@ using System.Threading.Tasks;
 
 namespace HotelApplication.Mapper
 {
-    internal class MappingProfile : Profile
+    public class MappingProfile : Profile
     {
         public MappingProfile() 
         {
 
             CreateMap<Customer, CustomerResponseModel>().ReverseMap();
-        
+            CreateMap<Customer, CustomerModel>().ReverseMap();
+            CreateMap<Room, RoomResponseModel>().ReverseMap();
+            CreateMap<Room, RoomModel>().ReverseMap();
+
         }
     }
 }

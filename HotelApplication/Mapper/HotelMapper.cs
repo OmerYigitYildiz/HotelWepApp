@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HotelApplication.Mapper
 {
-    internal class HotelMapper
+    public class HotelMapper
     {
         private static readonly Lazy<IMapper> Lazy = new Lazy<IMapper>(() =>
         {
