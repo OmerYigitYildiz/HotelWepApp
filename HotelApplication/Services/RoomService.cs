@@ -44,11 +44,11 @@ namespace HotelApplication.Services
             return HotelMapper.Mapper.Map<RoomResponseModel>(user);
         }
 
-        public async Task<RoomResponseModel> UpdateTable(RoomModel roomModel)
+        public async Task<RoomUpdateModel> UpdateTable(RoomUpdateModel roomUpdateModel)
         {
-            var user = HotelMapper.Mapper.Map<Room>(roomModel);
+            var user = HotelMapper.Mapper.Map<Room>(roomUpdateModel);
             await _repository.UpdateAsync(user);
-            return HotelMapper.Mapper.Map<RoomResponseModel>(user);
+            return HotelMapper.Mapper.Map<RoomUpdateModel>(user);
         }
 
         public async Task<Room> DeleteTable(int id)
