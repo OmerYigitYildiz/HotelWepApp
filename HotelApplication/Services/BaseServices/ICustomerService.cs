@@ -13,7 +13,7 @@ namespace HotelApplication.Services.BaseServices
         Task<List<Customer>> GetAllTable();
         Task<Customer> GetTable(int id);
         Task<CustomerResponseModel> AddTable(CustomerModel customerModel);
-        Task<CustomerResponseModel> UpdateTable(CustomerModel customerModel);
+        Task<CustomerUpdateModel> UpdateTable(CustomerUpdateModel customerUpdateModel);
         Task<Customer> DeleteTable(int id);
     }
 }
