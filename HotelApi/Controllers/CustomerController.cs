@@ -46,28 +46,28 @@ namespace HotelApplication.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<Customer>> AddCustomer(Customer customer)
+        public async Task<ActionResult<Customer>> AddCustomer(CustomerModel model)
         {
             var validator = new CustomerValidation();
 
-            var result = await validator.ValidateAsync(customer);
+            var result = await validator.ValidateAsync(model);
 
             if (!result.IsValid)
             {
                 return UnprocessableEntity(result);
             }
 
-            var customeradd = await _service.AddTable(customer);
-            return customeradd;
+            var customeradd = await _service.AddTable(model);
+            return HotelMapper.Mapper.Map<Customer>(customeradd);
 
         }
 
 
         [HttpPut]
-        public async Task<ActionResult<Customer>> UpdateCustomer(Customer customer)
+        public async Task<ActionResult<Customer>> UpdateCustomer(CustomerUpdateModel customer)
         {
 
-            var validator = new CustomerValidation();
+            var validator = new CustomerUpdateModelValidation();
             var result = await validator.ValidateAsync(customer);
 
             if (!result.IsValid)
@@ -76,7 +76,7 @@ namespace HotelApplication.Controllers
             }
 
             var customerupdate = await _service.UpdateTable(customer);
-            return customerupdate;
+            return HotelMapper.Mapper.Map<Customer>(customerupdate);
         }
 
 

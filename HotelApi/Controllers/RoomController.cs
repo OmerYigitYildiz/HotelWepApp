@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using HotelApplication.Models;
+using HotelApplication.Mapper;
 
 namespace HotelApplication.Controllers
 {
@@ -46,24 +47,24 @@ namespace HotelApplication.Controllers
             }
         }
         [HttpPost]
-        public async Task<ActionResult<Room>> AddRoom(Room room)
+        public async Task<ActionResult<Room>> AddRoom(RoomModel model)
         {
 
             var validator = new RoomValidation();
-            var result = await validator.ValidateAsync(room);
+            var result = await validator.ValidateAsync(model);
 
             if (!result.IsValid)
             {
                 return UnprocessableEntity(result);
             }
 
-            var rooms = await _service.AddTable(room);
-            return Ok(rooms);
+            var roomadd = await _service.AddTable(model);
+            return HotelMapper.Mapper.Map<Room>(roomadd);
         }
         [HttpPut]
-        public async Task<ActionResult<Room>> UpdateRoom(Room room)
+        public async Task<ActionResult<Room>> UpdateRoom(RoomUpdateModel room)
         {
-            var validator = new RoomValidation();
+            var validator = new RoomUpdateModelValidation();
             var result = await validator.ValidateAsync(room);
 
             if (!result.IsValid)
@@ -71,12 +72,12 @@ namespace HotelApplication.Controllers
                 return UnprocessableEntity(result);
             }
 
-            var rooms = await _service.UpdateTable(room);
-            return Ok(rooms);
+            var roomupdate = await _service.UpdateTable(room);
+            return HotelMapper.Mapper.Map<Room>(roomupdate);
 
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<Room>> DeleteRoom(int id)
         {
             var rooms = await _service.DeleteTable(id);
