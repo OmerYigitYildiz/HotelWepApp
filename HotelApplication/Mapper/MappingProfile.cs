@@ -16,8 +16,12 @@ namespace HotelApplication.Mapper
 
             CreateMap<Customer, CustomerResponseModel>().ReverseMap();
             CreateMap<Customer, CustomerModel>().ReverseMap();
+            CreateMap<Customer, CustomerUpdateModel>().ReverseMap();
+
             CreateMap<Room, RoomResponseModel>().ReverseMap();
             CreateMap<Room, RoomModel>().ReverseMap();
+            CreateMap<Room, RoomUpdateModel>().ReverseMap();
+
 
         }
     }
