@@ -18,6 +18,7 @@ using HotelApplication.Services;
 using HotelApplication.Services.BaseServices;
 using HotelDomain.IRepositories;
 using HotelInfrastructure.Repositories;
+using HotelApplication.Logging;
 
 namespace HotelApi
 {
@@ -68,6 +69,10 @@ namespace HotelApi
             {
                 endpoints.MapControllers();
             });
+
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var checkDbConnection = new CheckDbConnection(connectionString);
+            checkDbConnection.CheckConnectionAsync().GetAwaiter().GetResult();
         }
     }
 }
