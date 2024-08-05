@@ -19,6 +19,8 @@ using HotelApplication.Services.BaseServices;
 using HotelDomain.IRepositories;
 using HotelInfrastructure.Repositories;
 using HotelApplication.Logging;
+using Serilog;
+using System.IO;
 
 namespace HotelApi
 {
@@ -34,6 +36,13 @@ namespace HotelApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var logderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
+            // Serilog konfigürasyonu
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .WriteTo.File(Path.Combine(logderPath, "logs.txt"), rollingInterval: RollingInterval.Day)
+                .CreateLogger();
+
             services.AddTransient<IRoomRepository, RoomRepository>();
             services.AddTransient<ICustomerRepository, CustomerRepository>();
             services.AddTransient<ICustomerService, CustomerService>();
