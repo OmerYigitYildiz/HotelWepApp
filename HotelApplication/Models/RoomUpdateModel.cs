@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HotelDomain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace HotelApplication.Models
 {
     public class RoomUpdateModel
     {
-        public int Id { get; set; } 
+        public Guid Id { get; set; }
         public string RoomType { get; set; }
         public string RoomName { get; set; }
         public int Guests { get; set; }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HotelApplication.Models.Response;
 
 namespace HotelApplication.Mapper
 {
@@ -22,6 +23,9 @@ namespace HotelApplication.Mapper
             CreateMap<Room, RoomModel>().ReverseMap();
             CreateMap<Room, RoomUpdateModel>().ReverseMap();
 
+            CreateMap<Reserved, ReservedResponseModel>().ReverseMap();
+            CreateMap<Reserved, ReservedModel>().ReverseMap();
+            CreateMap<Reserved, ReservedUpdateModel>().ReverseMap();
 
         }
     }

@@ -21,6 +21,8 @@ using HotelInfrastructure.Repositories;
 using HotelApplication.Logging;
 using Serilog;
 using System.IO;
+using HotelDomain.IRepositories.IBaseRepositories;
+
 
 namespace HotelApi
 {
@@ -43,16 +45,33 @@ namespace HotelApi
                 .WriteTo.File(Path.Combine(logderPath, "logs.txt"), rollingInterval: RollingInterval.Day)
                 .CreateLogger();
 
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowReactApp",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                               .AllowAnyHeader()
+                               .AllowAnyMethod();
+                    }
+                );
+            });
+
+
             services.AddTransient<IRoomRepository, RoomRepository>();
             services.AddTransient<ICustomerRepository, CustomerRepository>();
-            services.AddTransient<ICustomerService, CustomerService>();
+            services.AddTransient<IReservedRepository, ReservedRepository>();
             services.AddTransient<IRoomService, RoomService>();
+            services.AddTransient<ICustomerService, CustomerService>();
+            services.AddTransient<IReservedService, ReservedService>();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "HotelApi", Version = "v1" });
             });
-            
+
             services.AddControllersWithViews();
             services.AddDbContext<HotelDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
@@ -73,6 +92,8 @@ namespace HotelApi
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors("AllowReactApp");
 
             app.UseEndpoints(endpoints =>
             {

@@ -16,5 +16,6 @@ namespace HotelDomain.Entities
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Country { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
     }
 }

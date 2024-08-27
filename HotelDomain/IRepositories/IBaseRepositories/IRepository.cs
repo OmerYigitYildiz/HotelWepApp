@@ -10,7 +10,7 @@ namespace HotelDomain.IRepositories.IBaseRepositories
     {
         // Get Functions
         Task<List<TEntity>> GetAllAsync();
-        Task<TEntity> GetByIdAsync(int id);
+        Task<TEntity> GetByIdAsync(Guid id);
 
         // Put Functions
         Task<TEntity> UpdateAsync(TEntity TEntity);
@@ -19,6 +19,6 @@ namespace HotelDomain.IRepositories.IBaseRepositories
         Task<TEntity> AddAsync(TEntity TEntity);
 
         // Delete Function
-        Task<TEntity> DeleteAsync(int id);
+        Task<TEntity> DeleteAsync(Guid id);
     }
 }

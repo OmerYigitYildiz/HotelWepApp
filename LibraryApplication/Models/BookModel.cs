@@ -13,7 +13,7 @@ namespace LibraryApplication.Models
         public int Page { get; set; }
         public string Category { get; set; }
 
-        public int AuthorId { get; set; }
+        public Guid AuthorId { get; set; }
        // public Author Author { get; set; }
     }
 }

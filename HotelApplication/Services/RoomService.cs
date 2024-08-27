@@ -28,7 +28,7 @@ namespace HotelApplication.Services
             return Room;
         }
 
-        public async Task<Room> GetTable(int id)
+        public async Task<Room> GetTable(Guid id)
         {
             var Room = await _repository.GetByIdAsync(id);
             var user = HotelMapper.Mapper.Map<Room>(Room);
@@ -51,7 +51,7 @@ namespace HotelApplication.Services
             return HotelMapper.Mapper.Map<RoomUpdateModel>(user);
         }
 
-        public async Task<Room> DeleteTable(int id)
+        public async Task<Room> DeleteTable(Guid id)
         {
             var Room = await _repository.DeleteAsync(id);
             return Room;

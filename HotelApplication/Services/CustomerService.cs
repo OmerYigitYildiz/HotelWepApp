@@ -29,7 +29,7 @@ namespace HotelApplication.Services
             return Customer;
         }
 
-        public async Task<Customer> GetTable(int id)
+        public async Task<Customer> GetTable(Guid id)
         {
             var Customer = await _repository.GetByIdAsync(id);
             var user = HotelMapper.Mapper.Map<Customer>(Customer);
@@ -54,7 +54,7 @@ namespace HotelApplication.Services
         }
 
 
-        public async Task<Customer> DeleteTable(int id)
+        public async Task<Customer> DeleteTable(Guid id)
         {
             var Customer = await _repository.DeleteAsync(id);
             return Customer;

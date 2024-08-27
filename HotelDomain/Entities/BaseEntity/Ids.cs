@@ -8,7 +8,7 @@ namespace HotelDomain.Entities.BaseEntity
 {
     public class Ids
     {
-        public int Id { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public Guid Id { get; set; } = new Guid();
+        //public DateTime CreatedDate { get; set; }
     }
 }

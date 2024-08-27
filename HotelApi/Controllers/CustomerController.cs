@@ -11,6 +11,10 @@ using System.Text;
 using System.Threading.Tasks;
 using HotelApplication.Models;
 using HotelApplication.Mapper;
+using HotelApplication.Models.Response;
+using System.Net;
+using Microsoft.AspNetCore.Mvc;
+using HotelApplication.Models;
 
 namespace HotelApplication.Controllers
 {
@@ -26,66 +30,77 @@ namespace HotelApplication.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Customer>>> GetAllCustomerTable()
+        public async Task<ActionResult<ApiResponse>> GetAllCustomerTable()
         {
-            var customer = await _service.GetAllTable();
-            return Ok(customer);
+            var customers = await _service.GetAllTable();
+            if (customers == null)
+            {
+                return NotFound(new ApiResponse((int)HttpStatusCode.NotFound, null, "Müşteri bulunamadı."));
+            }
+            var response = new ApiResponse((int)HttpStatusCode.OK, customers, "Müşteriler başarıyla getirildi.");
+            return Ok(response);
         }
 
-
         [HttpGet("{id}")]
-        public async Task<ActionResult<Customer>> GetTable(int id)
+        public async Task<ActionResult<ApiResponse>> GetTable(Guid id)
         {
             var customer = await _service.GetTable(id);
             if (customer == null)
             {
-                return BadRequest("Personel Not Found");
+                var response = new ApiResponse((int)HttpStatusCode.NotFound, null, "Müşteri bulunamadı.");
+                return NotFound(response);
             }
-            return Ok(customer);
+            var successResponse = new ApiResponse((int)HttpStatusCode.OK, customer, "Müşteri başarıyla getirildi.");
+            return Ok(successResponse);
         }
 
-
         [HttpPost]
-        public async Task<ActionResult<Customer>> AddCustomer(CustomerModel model)
+        public async Task<ActionResult<ApiResponse>> AddCustomer(CustomerModel model)
         {
             var validator = new CustomerValidation();
-
             var result = await validator.ValidateAsync(model);
 
             if (!result.IsValid)
             {
-                return UnprocessableEntity(result);
+                var errorResponse = new ApiResponse((int)HttpStatusCode.UnprocessableEntity, result.Errors, "Doğrulama başarısız oldu.");
+                return UnprocessableEntity(errorResponse);
             }
 
-            var customeradd = await _service.AddTable(model);
-            return HotelMapper.Mapper.Map<Customer>(customeradd);
-
+            var customerAdd = await _service.AddTable(model);
+            var customer = HotelMapper.Mapper.Map<Customer>(customerAdd);
+            var successResponse = new ApiResponse((int)HttpStatusCode.Created, customer, "Müşteri başarıyla eklendi.");
+            return CreatedAtAction(nameof(GetTable), new { id = customer.Id }, successResponse);
         }
 
-
         [HttpPut]
-        public async Task<ActionResult<Customer>> UpdateCustomer(CustomerUpdateModel customer)
+        public async Task<ActionResult<ApiResponse>> UpdateCustomer(CustomerUpdateModel customer)
         {
-
             var validator = new CustomerUpdateModelValidation();
             var result = await validator.ValidateAsync(customer);
 
             if (!result.IsValid)
             {
-                return UnprocessableEntity(result);
+                var errorResponse = new ApiResponse((int)HttpStatusCode.UnprocessableEntity, result.Errors, "Doğrulama başarısız oldu.");
+                return UnprocessableEntity(errorResponse);
             }
 
-            var customerupdate = await _service.UpdateTable(customer);
-            return HotelMapper.Mapper.Map<Customer>(customerupdate);
+            var customerUpdate = await _service.UpdateTable(customer);
+            var updatedCustomer = HotelMapper.Mapper.Map<Customer>(customerUpdate);
+            var successResponse = new ApiResponse((int)HttpStatusCode.OK, updatedCustomer, "Müşteri başarıyla güncellendi.");
+            return Ok(successResponse);
         }
-
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Customer>> DeleteTableId(int id)
+        public async Task<ActionResult<ApiResponse>> DeleteTableId(Guid id)
         {
-            var customerdelete = await _service.DeleteTable(id);
-            return customerdelete;
+            var customerDelete = await _service.DeleteTable(id);
+            if (customerDelete == null)
+            {
+                var response = new ApiResponse((int)HttpStatusCode.NotFound, null, "Müşteri bulunamadı.");
+                return NotFound(response);
+            }
+            var successResponse = new ApiResponse((int)HttpStatusCode.OK, null, "\r\nMüşteri başarıyla silindi.");
+            return Ok(successResponse);
         }
-
     }
 }

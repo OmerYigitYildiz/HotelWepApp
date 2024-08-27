@@ -11,9 +11,9 @@ namespace HotelApplication.Services.BaseServices
     public interface IRoomService
     {
         Task<List<Room>> GetAllTable();
-        Task<Room> GetTable(int id);
+        Task<Room> GetTable(Guid id);
         Task<RoomResponseModel> AddTable(RoomModel roomModel);
         Task<RoomUpdateModel> UpdateTable(RoomUpdateModel roomUpdateModel);
-        Task<Room> DeleteTable(int id);
+        Task<Room> DeleteTable(Guid id);
     }
 }

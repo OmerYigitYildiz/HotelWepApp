@@ -11,9 +11,9 @@ namespace HotelApplication.Services.BaseServices
     public interface ICustomerService
     {
         Task<List<Customer>> GetAllTable();
-        Task<Customer> GetTable(int id);
+        Task<Customer> GetTable(Guid id);
         Task<CustomerResponseModel> AddTable(CustomerModel customerModel);
         Task<CustomerUpdateModel> UpdateTable(CustomerUpdateModel customerUpdateModel);
-        Task<Customer> DeleteTable(int id);
+        Task<Customer> DeleteTable(Guid id);
     }
 }

@@ -16,7 +16,7 @@ namespace HotelDomain.Entities
         public int Page { get; set; }
         public string Category { get; set; }
 
-        public int AuthorId { get; set; }
+        public Guid AuthorId { get; set; }
 
         [JsonIgnore]
         public Author Author { get; set; }

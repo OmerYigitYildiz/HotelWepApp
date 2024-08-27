@@ -6,6 +6,7 @@ using LibraryApplication.Mapper;
 using LibraryApplication.Models;
 using LibraryApplication.Services.BaseServices;
 using LibraryApplication.Validations;
+using System;
 
 namespace LibraryApi.Controllers
 {
@@ -28,7 +29,7 @@ namespace LibraryApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Book>> GetBookById(int id)
+        public async Task<ActionResult<Book>> GetBookById(Guid id)
         {
             var books = await _service.GetTable(id);
 
@@ -73,7 +74,7 @@ namespace LibraryApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Book>> DeleteBook(int id)
+        public async Task<ActionResult<Book>> DeleteBook(Guid id)
         {
             var books = await _service.DeleteTable(id);
 

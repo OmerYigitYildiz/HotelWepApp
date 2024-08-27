@@ -11,6 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 using HotelApplication.Models;
 using HotelApplication.Mapper;
+using HotelApplication.Models.Response;
+using System.Net;
 
 namespace HotelApplication.Controllers
 {
@@ -26,71 +28,77 @@ namespace HotelApplication.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Room>>> GetAllRoom()
+        public async Task<ActionResult<ApiResponse>> GetAllRoom()
         {
             var rooms = await _service.GetAllTable();
-            return Ok(rooms);
+            if (rooms == null)
+            {
+                return NotFound(new ApiResponse((int)HttpStatusCode.NotFound, null, "Oda bulunamadı."));
+            }
+            var response = new ApiResponse((int)HttpStatusCode.OK, rooms, "Odalar başarıyla getirildi.");
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Room>> GetRoomById(int id)
+        public async Task<ActionResult<ApiResponse>> GetRoomById(Guid id)
         {
-            var rooms = await _service.GetTable(id);
-
-            if (rooms == null)
+            var room = await _service.GetTable(id);
+            if (room == null)
             {
-                return BadRequest("Task Not Found");
+                var response = new ApiResponse((int)HttpStatusCode.NotFound, null, "Oda bulunamadı.");
+                return NotFound(response);
             }
-            else
-            {
-                return Ok(rooms);
-            }
+            var successResponse = new ApiResponse((int)HttpStatusCode.OK, room, "Oda başarıyla getirildi.");
+            return Ok(successResponse);
         }
-        [HttpPost]
-        public async Task<ActionResult<Room>> AddRoom(RoomModel model)
-        {
 
+        [HttpPost]
+        public async Task<ActionResult<ApiResponse>> AddRoom(RoomModel model)
+        {
             var validator = new RoomValidation();
             var result = await validator.ValidateAsync(model);
 
             if (!result.IsValid)
             {
-                return UnprocessableEntity(result);
+                var errorResponse = new ApiResponse((int)HttpStatusCode.UnprocessableEntity, result.Errors, "Doğrulama başarısız oldu.");
+                return UnprocessableEntity(errorResponse);
             }
 
-            var roomadd = await _service.AddTable(model);
-            return HotelMapper.Mapper.Map<Room>(roomadd);
+            var roomAdd = await _service.AddTable(model);
+            var room = HotelMapper.Mapper.Map<Room>(roomAdd);
+            var successResponse = new ApiResponse((int)HttpStatusCode.Created, room, "Oda başarıyla eklendi.");
+            return CreatedAtAction(nameof(GetRoomById), new { id = room.Id }, successResponse);
         }
+
         [HttpPut]
-        public async Task<ActionResult<Room>> UpdateRoom(RoomUpdateModel room)
+        public async Task<ActionResult<ApiResponse>> UpdateRoom(RoomUpdateModel room)
         {
             var validator = new RoomUpdateModelValidation();
             var result = await validator.ValidateAsync(room);
 
             if (!result.IsValid)
             {
-                return UnprocessableEntity(result);
+                var errorResponse = new ApiResponse((int)HttpStatusCode.UnprocessableEntity, result.Errors, "Doğrulama başarısız oldu.");
+                return UnprocessableEntity(errorResponse);
             }
 
-            var roomupdate = await _service.UpdateTable(room);
-            return HotelMapper.Mapper.Map<Room>(roomupdate);
-
+            var roomUpdate = await _service.UpdateTable(room);
+            var updatedRoom = HotelMapper.Mapper.Map<Room>(roomUpdate);
+            var successResponse = new ApiResponse((int)HttpStatusCode.OK, updatedRoom, "Oda başarıyla güncellendi.");
+            return Ok(successResponse);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Room>> DeleteRoom(int id)
+        public async Task<ActionResult<ApiResponse>> DeleteRoom(Guid id)
         {
-            var rooms = await _service.DeleteTable(id);
-
-            if (rooms == null)
+            var roomDelete = await _service.DeleteTable(id);
+            if (roomDelete == null)
             {
-                return BadRequest("Task Not Found");
+                var response = new ApiResponse((int)HttpStatusCode.NotFound, null, "Oda bulunamadı.");
+                return NotFound(response);
             }
-            else
-            {
-                return Ok(rooms);
-            }
-
+            var successResponse = new ApiResponse((int)HttpStatusCode.OK, null, "Oda başarıyla silindi.");
+            return Ok(successResponse);
         }
     }
 }

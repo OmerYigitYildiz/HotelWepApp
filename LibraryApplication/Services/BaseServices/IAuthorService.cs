@@ -1,5 +1,4 @@
 ﻿using HotelDomain.Entities;
-using HotelDomain.Entities;
 using LibraryApplication.Models;
 using LibraryApplication.Models.Response;
 using System;
@@ -13,10 +12,10 @@ namespace LibraryApplication.Services.BaseServices
     public interface IAuthorService
     {
         Task<List<Author>> GetAllTable();
-        Task<Author> GetTable(int id);
+        Task<Author> GetTable(Guid id);
         Task<AuthorResponseModel> AddTable(AuthorModel authorModel);
         Task<AuthorUpdateModel> UpdateTable(AuthorUpdateModel authorUpdateModel);
-        Task<Author> DeleteTable(int id);
+        Task<Author> DeleteTable(Guid id);
         Task<List<Author>> GetAuthorWithBooksAsync();
     }
 }

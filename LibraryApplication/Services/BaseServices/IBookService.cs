@@ -13,9 +13,9 @@ namespace LibraryApplication.Services.BaseServices
     public interface IBookService
     {
         Task<List<Book>> GetAllTable();
-        Task<Book> GetTable(int id);
+        Task<Book> GetTable(Guid id);
         Task<BookResponseModel> AddTable(BookModel bookModel);
         Task<BookUpdateModel> UpdateTable(BookUpdateModel bookUpdateModel);
-        Task<Book> DeleteTable(int id);
+        Task<Book> DeleteTable(Guid id);
     }
 }

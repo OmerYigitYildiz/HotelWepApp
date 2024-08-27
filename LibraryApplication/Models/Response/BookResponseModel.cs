@@ -10,10 +10,10 @@ namespace LibraryApplication.Models.Response
 {
     public class BookResponseModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Category { get; set; }
 
-        public int AuthorId { get; set; }
+        public Guid AuthorId { get; set; }
 
         [JsonIgnore]
         public Author Author { get; set; }

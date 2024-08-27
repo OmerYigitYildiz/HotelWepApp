@@ -28,7 +28,7 @@ namespace LibraryApplication.Services
             return Book;
         }
 
-        public async Task<Book> GetTable(int id)
+        public async Task<Book> GetTable(Guid id)
         {
             var Book = await _repository.GetByIdAsync(id);
             var user = LibraryMapper.Mapper.Map<Book>(Book);
@@ -51,7 +51,7 @@ namespace LibraryApplication.Services
             return LibraryMapper.Mapper.Map<BookUpdateModel>(user);
         }
 
-        public async Task<Book> DeleteTable(int id)
+        public async Task<Book> DeleteTable(Guid id)
         {
             var Book = await _repository.DeleteAsync(id);
             return Book;

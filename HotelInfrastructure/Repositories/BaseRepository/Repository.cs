@@ -25,7 +25,7 @@ namespace HotelInfrastructure.Repositories.BaseRepository
             return await _context.Set<TEntity>().ToListAsync();
         }
 
-        public async Task<TEntity> GetByIdAsync(int id)
+        public async Task<TEntity> GetByIdAsync(Guid id)
         {
             return await _context.Set<TEntity>().FindAsync(id);
         }
@@ -47,7 +47,7 @@ namespace HotelInfrastructure.Repositories.BaseRepository
         }
 
         // Delete Function
-        public async Task<TEntity> DeleteAsync(int id)
+        public async Task<TEntity> DeleteAsync(Guid id)
         {
             var entity = await _context.Set<TEntity>().FindAsync(id);
             if (entity == null)
